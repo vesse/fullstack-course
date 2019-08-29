@@ -1,0 +1,25 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+note over selain:
+Selain lähettää form-datassa kentän "note"
+jossa arvona on uusi muistiinpano
+end note
+note over palvelin:
+Palvelin lisää uuden muistiinpanon notes-taulukkoon
+end note
+palvelin->selain: HTTP 302 /notes
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin->selain: HTTP 200 HTML-koodi
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: HTTP 200 main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: HTTP 200 main.js
+note over selain:
+Selain suorittaa javascript-koodin joka käynnistää
+muistiinpanojen lataamisen
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: HTTP 200 JSON-taulukkona muistiinpanot
+note over selain:
+Selain parsii vastauksen JSON-taulukoksi ja lisää
+muistiinpanot DOM-puuhun listana
+end note

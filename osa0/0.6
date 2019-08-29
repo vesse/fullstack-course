@@ -1,0 +1,13 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over selain:
+Selain lisää muistiinpanon notes-taulukkoon, tyhjentää
+vanhat elementit listasta ja muodostaa uuden
+listan päivitetystä taulukosta. Sen jälkeen selain lähettää
+palvelimelle JSON-muotoisen muistiinpanon
+{ content: "kaunis kissa", date: "2019-08-29T17:19:17.370Z"}
+end note
+palvelin->selain: HTTP 201 {"message":"note created"}
+note over selain:
+Selain tulostaa konsoliin saamansa vastauksen
+{"message":"note created"}
+end note
