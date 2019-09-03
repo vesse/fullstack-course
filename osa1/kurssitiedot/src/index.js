@@ -5,7 +5,7 @@ const Header = ({ name }) => <h1>{ name }</h1>
 
 const CoursePart = ({ name, exercises }) => <p>{ name } { exercises }</p>
 
-const Content = ({ parts }) => parts.map((part) => <CoursePart { ...part } />)
+const Content = ({ parts }) => parts.map((part, idx) => <CoursePart key={ idx } { ...part } />)
 
 const Total = ({ parts }) =>
   <p>Number of exercises { parts.reduce((acc, { exercises }) => acc += exercises, 0) }</p>
