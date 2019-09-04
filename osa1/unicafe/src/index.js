@@ -8,13 +8,9 @@ const Button = ({ label, onClick }) => <button onClick={ onClick }>{ label }</bu
 const Statistic = ({ label, value }) => <tr><td>{ label }</td><td>{ value }</td></tr>
 
 const GiveFeedback = ({ feedback }) =>
-  <>
-    <h1>Give feedback</h1>
-    { feedback.map((feedback) => <Button key={ feedback.label } { ...feedback } />) }
-  </>
+  feedback.map((feedback) => <Button key={ feedback.label } { ...feedback } />)
 
-const Statistics = ({ feedback }) => {
-  const totalVotes = feedback.reduce((acc, item) => acc += item.count, 0)
+const Statistics = ({ feedback, totalVotes }) => {
   const average = totalVotes > 0
     ? feedback.map((item) => item.count * item.statisticalValue).reduce((acc, stats) => acc += stats, 0) / totalVotes
     : '-';
@@ -23,19 +19,14 @@ const Statistics = ({ feedback }) => {
     : 0)
 
   return (
-    <>
-      <h1>Statistics</h1>
-      { totalVotes > 0
-        ? <table>
-            <tbody>
-              { feedback.map(({ label, count }) => <Statistic key={ label } label={ label } value={ count } />) }
-              <Statistic label='all' value={ totalVotes } />
-              <Statistic label='average' value={ average } />
-              <Statistic label='positive' value={ positivePercentage } />
-            </tbody>
-          </table>
-        : <p>No feedback given</p> }
-    </>
+    <table>
+      <tbody>
+        { feedback.map(({ label, count }) => <Statistic key={ label } label={ label } value={ count } />) }
+        <Statistic label='all' value={ totalVotes } />
+        <Statistic label='average' value={ average } />
+        <Statistic label='positive' value={ positivePercentage } />
+      </tbody>
+    </table>
   )
 }
 
@@ -67,10 +58,16 @@ const App = () => {
     }
   ]
 
+  const totalVotes = feedback.reduce((acc, item) => acc += item.count, 0)
+
   return (
     <div>
+      <h1>Give feedback</h1>
       <GiveFeedback feedback={ feedback } />
-      <Statistics feedback={ feedback } />
+      <h1>Statistics</h1>
+      { totalVotes > 0
+          ? <Statistics feedback={ feedback } totalVotes={ totalVotes } />
+          : <p>No feedback given</p> }
     </div>
   )
 }
