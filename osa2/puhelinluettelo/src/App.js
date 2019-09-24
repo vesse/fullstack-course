@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 
-import Person from './components/Person';
+import Persons from './components/Persons';
+import Filter from './components/Filter';
+import AddContact from './components/AddContact';
 
 const App = () => {
   const [ filter, setFilter ] = useState('');
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' }
+    { name: 'Arto Hellas', number: '040-1234567' },
+    { name: 'Osman Käämi', number: '040-1123243' }
   ]);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
 
   const updateValue = (handler) => (e) => handler(e.target.value);
 
-  const addContaact = (e) => {
+  const addContact = (e) => {
     e.preventDefault();
 
     if (!!persons.find((p) => p.name === newName)) {
@@ -37,25 +40,17 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form>
-        <div>
-          Filter names: <input value={ filter }
-                               onChange={ updateValue(setFilter) } />
-        </div>
-        <h3>Add new contact</h3>
-        <div>
-          name: <input value={ newName }
-                       onChange={ updateValue(setNewName) } />
-        </div>
-        <div>
-          number: <input value={ newNumber }
-                       onChange={ updateValue(setNewNumber) } />
-        </div>
-        <div>
-          <button type="submit" onClick={ addContaact }>add</button>
-        </div>
+        <Filter handler={ updateValue(setFilter) } value={ filter } />
+
+        <AddContact
+          newName={ newName }
+          setNewName={ updateValue(setNewName) }
+          newNumber={ newNumber }
+          setNewNumber={ updateValue(setNewNumber) }
+          submit={ addContact } />
       </form>
-      <h3>Numbers</h3>
-      { visibleContacts.map((p) => <Person { ...p } />) }
+
+      <Persons contacts={ visibleContacts } />
     </div>
   )
 
