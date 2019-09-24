@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Person from './components/Person';
 
 const App = () => {
+  const [ filter, setFilter ] = useState('');
   const [ persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-1234567' }
   ]);
@@ -28,10 +29,19 @@ const App = () => {
     setNewNumber('');
   };
 
+  const visibleContacts = filter.trim() === ''
+    ? persons
+    : persons.filter((p) => new RegExp(`${filter}`, 'i').test(p.name));
+
   return (
     <div>
       <h2>Phonebook</h2>
       <form>
+        <div>
+          Filter names: <input value={ filter }
+                               onChange={ updateValue(setFilter) } />
+        </div>
+        <h3>Add new contact</h3>
         <div>
           name: <input value={ newName }
                        onChange={ updateValue(setNewName) } />
@@ -44,8 +54,8 @@ const App = () => {
           <button type="submit" onClick={ addContaact }>add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-      { persons.map((p) => <Person { ...p } />) }
+      <h3>Numbers</h3>
+      { visibleContacts.map((p) => <Person { ...p } />) }
     </div>
   )
 
